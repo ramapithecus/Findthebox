@@ -12,6 +12,7 @@ headContainer.appendChild(title);
 gridContainer.append(headContainer);
 // arrays
 var arrayMaterials = [];
+var boxParameters = [];   
 
 // order details
 var orderContainer = document.createElement('div');
@@ -66,17 +67,14 @@ spanname.innerHTML = 'name';
 matContainer.append(spanname);
 var spanwidth = document.createElement('span');
 spanwidth.innerHTML = 'width';
-matContainer.append(spanwidth)
+matContainer.append(spanwidth);
 var spanheigth = document.createElement('span');
 spanheigth.innerHTML = 'heigth';
 matContainer.append(spanheigth);
 var spanlenght = document.createElement('span');
 spanlenght.innerHTML = 'lenght';
-matContainer.append(spanlenght)
-// matContainer.appendChild( spanlenght)
+matContainer.append(spanlenght);
 var matContSpans = document.querySelectorAll('span');
-console.log(matContSpans)
-//matContainer.appendChild(matContSpans[1]);    
 matContSpans.forEach(function (matContSpan){
     matContSpan.classList.add('matSpan');
 //matContainer.appendChild(matContSpan);    
@@ -98,7 +96,7 @@ getFilterMatData();
     const responseBox =  await fetch('boxType.csv');
     const boxData =  await responseBox.text();
 var arrayBoxes = boxData.split('\n');   
-var boxParameters = [];     
+//var boxParameters = [];     
 var boxHeaders =['name', 'width', 'height', 'length'];       
 //console.log(arrayBoxes) 
 //console.log(boxParameters)         
@@ -123,8 +121,24 @@ var boxHeaders =['name', 'width', 'height', 'length'];
 boxToObject();
  function boxChooser(event){
 event.preventDefault();
-var matHeight = inpHeight.value;
-var matWidth = inpWidth.value;
+var matHeight = parseFloat(inpHeight.value);
+var matWidth = parseFloat(inpWidth.value);
+var matPieces = parseFloat(inpNumber.value); 
+var goodBoxes = [];
+var badBoxes = [];
+//var boxWidth = boxParameters[1];    
+//var boxHeight = boxParameters[2];    
+//var boxLength = boxParameters[3];    
 //var matDepth = inpDepth.value;   
-console.log(matHeight, matWidth);     
- }
+//console.log(boxParameters);
+for(i = 0; i < boxParameters.length; i++){
+if(matHeight < parseFloat(boxParameters[i].height)){
+goodBoxes.push(boxParameters[i].name);    
+}
+else{
+badBoxes.push(boxParameters[i].name);    
+}
+}     
+console.log(goodBoxes);
+console.log(badBoxes);
+}
