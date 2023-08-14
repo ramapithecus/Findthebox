@@ -97,7 +97,7 @@ getFilterMatData();
     const boxData =  await responseBox.text();
 var arrayBoxes = boxData.split('\n');   
 //var boxParameters = [];     
-var boxHeaders =['name', 'width', 'height', 'length'];       
+var boxHeaders =['name', 'width', 'height', 'long'];       
 //console.log(arrayBoxes) 
 //console.log(boxParameters)         
 //console.log(boxHeaders)
@@ -112,7 +112,7 @@ var boxHeaders =['name', 'width', 'height', 'length'];
         }
         boxParameters.push(obj);
  var paraBoxName = document.createElement('p');
-     paraBoxName.innerHTML = `${boxParameters[i].name}  -  ${boxParameters[i].width} - ${boxParameters[i].height} - ${boxParameters[i].length} `;
+     paraBoxName.innerHTML = `${boxParameters[i].name}  -  ${boxParameters[i].width} - ${boxParameters[i].height} - ${boxParameters[i].long} `;
  matContainer.appendChild(paraBoxName);   
     }
     
@@ -124,8 +124,17 @@ event.preventDefault();
 var matHeight = parseFloat(inpHeight.value);
 var matWidth = parseFloat(inpWidth.value);
 var matPieces = parseFloat(inpNumber.value); 
+var bigerDimension;
+if(matHeight >= matWidth){
+    bigerDimension = parseFloat(matHeight);
+}  
+else{
+ bigerDimension = parseFloat(matWidth);   
+}   
+console.log(bigerDimension);     
 var goodBoxes = [];
 var badBoxes = [];
+     
 //var boxWidth = boxParameters[1];    
 //var boxHeight = boxParameters[2];    
 //var boxLength = boxParameters[3];    
@@ -138,6 +147,18 @@ goodBoxes.push(boxParameters[i].name);
 else{
 badBoxes.push(boxParameters[i].name);    
 }
+/*if(matHeight < parseFloat(boxParameters[i].height)){
+goodBoxes.push(boxParameters[i].name);    
+}
+else{
+badBoxes.push(boxParameters[i].name);    
+}if(matHeight < parseFloat(boxParameters[i].height)){
+goodBoxes.push(boxParameters[i].name);    
+}
+else{
+badBoxes.push(boxParameters[i].name);    
+}*/
+    
 }     
 console.log(goodBoxes);
 console.log(badBoxes);
