@@ -33,7 +33,7 @@ orderForm.appendChild(inpWidth);
 var inpHeight = document.createElement('input');
 inpHeight.setAttribute('name', 'orderHeight');
 inpHeight.setAttribute('placeholder', 'height in mm');
-inpHeight.setAttribute('value', '670');
+inpHeight.setAttribute('value', '630');
 inpHeight.classList.add('InpClassNumber');
 orderForm.appendChild(inpHeight);
 var inpNumber = document.createElement('input');
@@ -62,18 +62,18 @@ orderInputs.forEach(function (orderInput) {
 var matContainer = document.createElement('div');
 matContainer.classList.add('matsClass');
 gridContainer.appendChild(matContainer);
-var spanname = document.createElement('span');
-spanname.innerHTML = 'name';
-matContainer.append(spanname);
+var spanName = document.createElement('span');
+spanName.innerHTML = 'name';
+matContainer.append(spanName);
+var spanLenght = document.createElement('span');
+spanLenght.innerHTML = 'lenght';
+matContainer.append(spanLenght);
+var spanHeigth = document.createElement('span');
+spanHeigth.innerHTML = 'heigth';
+matContainer.append(spanHeigth);
 var spanwidth = document.createElement('span');
 spanwidth.innerHTML = 'width';
 matContainer.append(spanwidth);
-var spanheigth = document.createElement('span');
-spanheigth.innerHTML = 'heigth';
-matContainer.append(spanheigth);
-var spanlenght = document.createElement('span');
-spanlenght.innerHTML = 'lenght';
-matContainer.append(spanlenght);
 var matContSpans = document.querySelectorAll('span');
 matContSpans.forEach(function (matContSpan) {
     matContSpan.classList.add('matSpan');
@@ -98,7 +98,7 @@ getFilterMatData();
     const boxData =  await responseBox.text();
 var arrayBoxes = boxData.split('\n');   
 //var boxParameters = [];     
-var boxHeaders =['name', 'width', 'height', 'long'];       
+var boxHeaders =['name', 'long', 'height', 'width'];       
 //console.log(arrayBoxes) 
 //console.log(boxParameters)         
 //console.log(boxHeaders)
@@ -113,12 +113,11 @@ var boxHeaders =['name', 'width', 'height', 'long'];
         }
         boxParameters.push(obj);
  var paraBoxName = document.createElement('p');
-     paraBoxName.setAttribute('id',boxParameters[i].name);    
-     paraBoxName.innerHTML = `${boxParameters[i].name}  -  ${boxParameters[i].width} - ${boxParameters[i].height} - ${boxParameters[i].long} `;
+     paraBoxName.setAttribute('id',boxParameters[i].name);
+     paraBoxName.classList.add('paraBox');     
+     paraBoxName.innerHTML = `${boxParameters[i].name}  -  ${boxParameters[i].long} - ${boxParameters[i].height} - ${boxParameters[i].width} `;
  matContainer.appendChild(paraBoxName);   
     }
-    
-
   }
 boxToObject();
  function boxChooser(event){
@@ -135,15 +134,12 @@ else{
  biggerSideOfMat = parseFloat(matWidth);  
  lesserSideOfMat = parseFloat(matHeight);    
 }   
-//console.log(biggerSideOfMat);
-//console.log(lesserSideOfMat);
 var boxes = boxParameters;
 var possibleBoxes = [];     
 var badBoxes = [];
 var goodBoxes = [];
-     
-//console.log(matHeight); 
-//console.log(boxes);
+var paraBoxes = document.querySelectorAll('.paraBox'); 
+var idCollector = [];     
 //filter possible boxes, at least one side of box must be bigger than the bigger side of filter cut
 for(i = 0; i < boxes.length; i++){
     if( boxes[i].width > biggerSideOfMat || 
@@ -158,28 +154,33 @@ badBoxes.push(boxes[i]);
 //from possible boxes, lesser side of filter cut must be less than one of the remaining box sides       
 for(i = 0; i < possibleBoxes.length; i++){
    
-if(possibleBoxes[i].width > lesserSideOfMat && possibleBoxes[i].height > lesserSideOfMat || 
+if(possibleBoxes[i].width > lesserSideOfMat && possibleBoxes[i].long > lesserSideOfMat || 
    possibleBoxes[i].height > lesserSideOfMat && possibleBoxes[i].width > lesserSideOfMat ||
    possibleBoxes[i].long > lesserSideOfMat && possibleBoxes[i].height > lesserSideOfMat ){
 goodBoxes.push(possibleBoxes[i]);
-
     }
     /*else{
 badBoxes.push(boxes[i])
  } */
 }
 console.log(goodBoxes);
-console.log(goodBoxes[0].name);
-console.log(possibleBoxes);     
-console.log(badBoxes); 
-     
-var paraGoodBox = document.createElement('p');
+goodBoxes.forEach( function(goodBox) {
+idCollector.push(goodBox.name);    
+})     
+console.log(idCollector);
+//if()     
+//console.log(possibleBoxes);     
+//console.log(badBoxes); 
+//console.log(paraBoxes);
+console.log(paraBoxes[0]);     
+//var paraGoodBox = document.createElement('p');
+/*
 var boxFiller = document.querySelector('.boxFill');
 for(i = 0; i < goodBoxes.length; i++){
 var paraGoodBox = document.createElement('p');    
      boxFiller.appendChild(paraGoodBox);
      paraGoodBox.innerHTML = goodBoxes[i].name;
-}
+}*/
 }
 function chooseMostOptimalBox(){
 var boxFillCont = document.createElement('div');
