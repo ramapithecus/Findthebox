@@ -122,6 +122,7 @@ var boxHeaders =['name', 'long', 'height', 'width'];
 boxToObject();
  function boxChooser(event){
 event.preventDefault();
+//undecorateMatches();     
 var matHeight = parseFloat(inpHeight.value);
 var matWidth = parseFloat(inpWidth.value);
 var matPieces = parseFloat(inpNumber.value); 
@@ -139,7 +140,8 @@ var possibleBoxes = [];
 var badBoxes = [];
 var goodBoxes = [];
 var paraBoxes = document.querySelectorAll('.paraBox'); 
-var idCollector = [];     
+var idCollector = []; 
+var AllBoxesNames = [];     
 //filter possible boxes, at least one side of box must be bigger than the bigger side of filter cut
 for(i = 0; i < boxes.length; i++){
     if( boxes[i].width > biggerSideOfMat || 
@@ -163,16 +165,34 @@ goodBoxes.push(possibleBoxes[i]);
 badBoxes.push(boxes[i])
  } */
 }
-console.log(goodBoxes);
-goodBoxes.forEach( function(goodBox) {
+//console.log(goodBoxes);
+/*goodBoxes.forEach( function(goodBox) {
 idCollector.push(goodBox.name);    
-})     
-console.log(idCollector);
-//if()     
+})
+boxes.forEach( function(box){
+AllBoxesNames.push(box.name);    
+}) */
+//console.log(AllBoxesNames);
+//console.log(idCollector);
+//console.log(paraBoxes);
+var matches = []; 
+   
+for(i = 0; i < goodBoxes.length; i++){
+var idMatch = document.getElementById(goodBoxes[i].name)    
+//console.log(idMatch);       
+matches.push(idMatch); 
+ }  
+console.log(matches);
+function decorateMatches(){
+matches.forEach(function(match){
+match.classList.add('matchDecor');
+match.setAttribute('draggable','true');    
+})  
+}     
+    
 //console.log(possibleBoxes);     
 //console.log(badBoxes); 
-//console.log(paraBoxes);
-console.log(paraBoxes[0]);     
+//console.log(paraBoxes[0]);     
 //var paraGoodBox = document.createElement('p');
 /*
 var boxFiller = document.querySelector('.boxFill');
@@ -181,7 +201,18 @@ var paraGoodBox = document.createElement('p');
      boxFiller.appendChild(paraGoodBox);
      paraGoodBox.innerHTML = goodBoxes[i].name;
 }*/
+decorateMatches();
+//console.log(matches);     
+function undecorateMatches(){
+matches.forEach(function(match){
+match.classList.remove('matchDecor');
+match.removeAttribute('draggable','true');    
+})      
+}     
+orderButt.addEventListener('mouseenter', undecorateMatches);     
+//undecorateMatches();     
 }
+
 function chooseMostOptimalBox(){
 var boxFillCont = document.createElement('div');
     boxFillCont.classList.add('boxFill');
