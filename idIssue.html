@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styleFTB.css ">
+<title>Find the box</title>
+ <meta charset="UTF-8">
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"> 
+</head>   
+<body> 
+    
+<script>
+const boxes = [    
+{name: 'karton 6', long: '1030', height: '620', width: '640'},
+{name: 'karton 10', long: '1220', height: '620', width: '640'},
+{name: 'karton 10a', long: '1170', height: '620', width: '640'},
+{name: 'karton 13', long: '1320', height: '670', width: '670'},
+{name: 'karton 13a', long: '1170', height: '670', width: '670'},
+{name: 'karton 14', long: '2170', height: '690', width: '690'},
+{name: 'karton ZL3', long: '1060', height: '650', width: '785'}
+]
+//console.log(boxes);
+function start(){    
+for( i = 0; i < boxes.length; i++){
+    var para = document.createElement('p');
+    para.setAttribute('id',boxes[i].name);
+    para.textContent = boxes[i].name; 
+    document.body.appendChild(para); 
+var boxName = document.getElementById(boxes[i].name);
+// console.log(boxName);       
+} 
+}
+start();    
+function turningRed(){    
+var hura = document.getElementById(boxes[2].name);
+    hura.style.color = 'green';
+    console.log(hura)
+}
+turningRed();    
+</script>    
+</body>
+    

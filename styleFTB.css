@@ -1,11 +1,12 @@
 :root{
 --darkblue: #070750;
+--matContFont: 1em;    
 }
-h1{
+.headingClass{
     color: var(--darkblue);
     text-align: center;
     text-transform: uppercase;
-    text-shadow:  -7px 8px 4px rgba(26,79,55,0.52); ;
+    text-shadow:  -7px 8px 4px rgba(26,79,55,0.52); 
     tab-size: 5;
 }
 .gridStyle{
@@ -18,22 +19,52 @@ h1{
 .orderFormClass{
     display: inline;
     background-color: orangered;
-    width: 14vw;
+    width: 19vw;
 }
 .InpClassNumber{
-    color: red;
+    color: orangered;
     background-color: peachpuff;
+}
+.centerFields{
+    width: 80%;
+    margin: 0.15em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    
 }
 .matsClass{
     background-color: darkorange;
-    border: .15em solid brown;
+    border: .25em solid brown;
+    font-size: var(--matContFont);
     height: auto; 
-    width: 33%;    
+    width: 40%; 
+    
 }
+.boxFill{
+    background-color: palegreen;
+    border: .25em solid brown;
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    width: 40%;
+    }
 .matSpan{
-    margin: 0.5vw;
-    font-Size: 1vw;
+    margin: .5vw;
+    font-Size: calc(.8* var(--matContFont));
     font-weight: bold;
     text-transform: uppercase;
-
+}
+.paraBox{
+    color: darkred;
+    font-family: serif;
+    margin: 0.25em; 
+    padding: 0.11em;
+}
+.matchDecor{
+    background-color: #3a760e; //green//
+    height: calc(1.5* var(--matContFont));
+    padding: 0.21em;
+    font-size: var(--matContFont);
 }

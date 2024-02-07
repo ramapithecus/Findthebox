@@ -8,12 +8,15 @@ var headContainer = document.createElement('div');
 headContainer.classList.add('head');
 var title = document.createElement('h1');
 title.innerHTML = 'kokoti';
+title.classList.add('headingClass');
 headContainer.appendChild(title);
 gridContainer.append(headContainer);
 // arrays and global variables
 var arrayMaterials = [];
+var boxesIdGlobe = [];
 var boxParameters = [];
 var goodBoxesGlobaly = [];
+var idCollector = [];
 // order details
 var orderContainer = document.createElement('div');
 gridContainer.append(orderContainer);
@@ -146,8 +149,7 @@ var possibleBoxes = [];
 var badBoxes = [];
 var goodBoxes = [];
 var paraBoxes = document.querySelectorAll('.paraBox'); 
-var idCollector = []; 
-var AllBoxesNames = [];     
+//var AllBoxesNames = [];     
 //filter possible boxes, at least one side of box must be bigger than the bigger side of filter cut
 for(i = 0; i < boxes.length; i++){
     if( boxes[i].width > biggerSideOfMat || 
@@ -168,35 +170,46 @@ if(possibleBoxes[i].width > lesserSideOfMat && possibleBoxes[i].long > lesserSid
 goodBoxes.push(possibleBoxes[i]);
     }
 }
+//console.log(goodBoxes)     
 //Global variable with good boxes 
 goodBoxesGlobaly = goodBoxes;
+function boxFillCreation(){
+var boxFillCont = document.createElement('div');
+    boxFillCont.classList.add('boxFill');
+    centerContainer.appendChild(boxFillCont);
+    var boxFillHeader = document.createElement('h3');
+        boxFillHeader.classList.add('headingClass'); 
+        boxFillHeader.innerText = 'pure volumen';    
+    boxFillCont.appendChild(boxFillHeader);
+ }
 boxFillCreation();    
+// making a div with boxes that match the criteria     
 var boxDiv = document.querySelector('.boxFill');
-for(i = 0; i < goodBoxesGlobaly.length; i++){     
+for(i = 0; i < goodBoxes.length; i++){     
 var boxDivParaName = document.createElement('p');
-      boxDivParaName .setAttribute('id',goodBoxesGlobaly[i].name);
-      boxDivParaName .classList.add('paraBoxDiv');     
-      boxDivParaName .innerHTML = `${goodBoxesGlobaly[i].name}  -  ${goodBoxesGlobaly[i].long} - ${goodBoxesGlobaly[i].height} - ${goodBoxesGlobaly[i].width} `;
+    boxDivParaName .setAttribute('id',goodBoxes[i].name);
+    boxDivParaName .setAttribute('data-box',goodBoxes[i].name);
+    boxDivParaName .classList.add('paraBoxDiv');     
+    boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
+    boxesIdGlobe.push(boxDivParaName);
 boxDiv.appendChild(boxDivParaName);  
 }
-//colouring matches     
-var matches = []; 
-for(i = 0; i < goodBoxes.length; i++){
-var idMatch = document.getElementById(goodBoxes[i].name)    
-//console.log(idMatch);       
-matches.push(idMatch); 
- }  
+//colouring boxes that matches criteria     
+var matches = document.querySelectorAll('.paraBoxDiv'); 
 //console.log(matches);
-//orderButt.removeEventListener('click', boxChooser);
+//console.log(boxesIdGlobe);
 function decorateMatches(){
 matches.forEach(function(match){
 match.classList.add('matchDecor');
 })  
 }     
 decorateMatches();
+//boxesIdGlobe = matches;    
 orderInputs.forEach(function (orderInput){
 orderInput.addEventListener('input', undecorateMatches);     
 })
+//console.log(boxesIdGlobe); 
+     //uncolouring boxes that matched the criteria
 function undecorateMatches(){
 var boxoFill = document.querySelector('.boxFill');
 boxoFill.remove();        
@@ -208,39 +221,29 @@ orderInput.removeEventListener('input', undecorateMatches);
 })    
 })      
 }     
-}
-function boxFillCreation(){
-var boxFillCont = document.createElement('div');
-    boxFillCont.classList.add('boxFill');
-    centerContainer.appendChild(boxFillCont);
-    howManyBoxesHowManyPiecesIn();
- }
+//calculations of filters fittng into boxes
 function howManyBoxesHowManyPiecesIn(){
-    var boxes = [];
-    boxes = goodBoxesGlobaly;
-//    console.log(boxes);
-//    console.log(inpHeight.value);
     var filtHeigth = parseFloat(inpHeight.value);
     var filtWidth = parseFloat(inpWidth.value);
     var filtDepth = 1;
-    var FiltVolumen = filtDepth * filtHeigth * filtWidth;
+    var filtVolumen = filtDepth * filtHeigth * filtWidth;
     var totalFilts = parseFloat(inpNumber.value);
     for(i = 0; i < boxes.length; i ++){
-            var boxWidth = boxes[i].width;
-            var boxLength = boxes[i].long ; 
-            var boxHeight = boxes[i].height;
+            var boxWidth = parseFloat(goodBoxes[i].width);
+            var boxLength = goodBoxes[i].long ; 
+            var boxHeight = goodBoxes[i].height;
             var boxVolumen = boxHeight * boxLength * boxWidth;
-//console.log(boxWidth, boxLength, boxHeight);  
-        var totalFiltsInBox = Math.floor(boxVolumen / FiltVolumen); 
-        var totalBoxes = Math.ceil(totalFilts / totalFiltsInBox);
-console.log(boxes[i].name, totalBoxes, totalFiltsInBox);
-        var paraWithId = document.getElementById(boxes[i].name);
-        console.log(`${paraWithId}`);
-        }
-
-//    var parasBoxes = document.querySelectorAll('.paraBoxDiv');
-//    console.log(parasBoxes);
-    /*for(i = 0; i < boxes.length; i++ ){
-        
-    }*/
+            var totalFiltsInBox = Math.floor(boxVolumen / filtVolumen); 
+            var totalBoxes = Math.ceil(totalFilts / totalFiltsInBox);
+//        console.log(boxVolumen, filtVolumen);
+//        console.log(goodBoxes[i].name, totalBoxes, totalFiltsInBox);
+            var para = document.getElementById(goodBoxes[i].name);
+                idCollector.push(para);
+            var spanOfVolumen = document.createElement('p');
+                spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} in one box`;
+                para.append(spanOfVolumen);
+    }
 }
+ howManyBoxesHowManyPiecesIn();     
+}
+
