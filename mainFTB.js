@@ -202,6 +202,7 @@ function decorateMatches(){
 matches.forEach(function(match){
 match.classList.add('matchDecor');
 })  
+orderButt.removeEventListener('click', boxChooser);    
 }     
 decorateMatches();
 //boxesIdGlobe = matches;    
@@ -229,7 +230,7 @@ function howManyBoxesHowManyPiecesIn(){
     var filtVolumen = filtDepth * filtHeigth * filtWidth;
     var totalFilts = parseFloat(inpNumber.value);
     for(i = 0; i < boxes.length; i ++){
-            var boxWidth = parseFloat(goodBoxes[i].width);
+            var boxWidth = goodBoxes[i].width;
             var boxLength = goodBoxes[i].long ; 
             var boxHeight = goodBoxes[i].height;
             var boxVolumen = boxHeight * boxLength * boxWidth;
@@ -242,8 +243,25 @@ function howManyBoxesHowManyPiecesIn(){
             var spanOfVolumen = document.createElement('p');
                 spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} in one box`;
                 para.append(spanOfVolumen);
+                para.addEventListener('click',playingTetris);
     }
 }
  howManyBoxesHowManyPiecesIn();     
 }
-
+function playingTetris(){
+var boxModelContainer = document.createElement('div');
+    boxModelContainer.classList.add('tetrisPlaying');
+    var deleteButton = document.createElement('button');
+    boxModelContainer.appendChild(deleteButton);
+    deleteButton.classList.add('tetrisButt');
+    deleteButton.addEventListener('click',function(){
+     centerContainer.removeChild(boxModelContainer);     
+    })
+var leftSide = document.createElement('div');
+var rightSide= document.createElement('div');
+var topSide = document.createElement('div');
+var downSide= document.createElement('div');
+var bottom = document.createElement('div');
+    boxModelContainer.appendChild(bottom, downSide, leftSide, rightSide,topSide);
+   centerContainer.appendChild(boxModelContainer); 
+}
