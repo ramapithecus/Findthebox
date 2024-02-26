@@ -17,6 +17,7 @@ var boxesIdGlobe = [];
 var boxParameters = [];
 var goodBoxesGlobaly = [];
 var idCollector = [];
+var clickedParagraphs = []
 // order details
 var orderContainer = document.createElement('div');
 gridContainer.append(orderContainer);
@@ -60,7 +61,7 @@ orderInputs.forEach(function (orderInput) {
     orderInput.setAttribute('step', 1);
     orderInput.setAttribute('required', 'true');
     orderInput.style.width = '155px';
-});
+})
 //box and materials lists
 var centerContainer = document.createElement('div');
 centerContainer.classList.add('centerFields');
@@ -101,6 +102,7 @@ for(i = 0; i < arrayMaterials.length; i++ ){
     orderMaterialsSelect.add(optMat);
 }  
 }
+//executing function
 getFilterMatData();
  async function boxToObject(){
     const responseBox =  await fetch('boxType.csv');
@@ -128,6 +130,7 @@ var boxHeaders =['name', 'long', 'height', 'width'];
  matContainer.appendChild(paraBoxName);   
     }
   }
+//executing function
 boxToObject();
  function boxChooser(event){
 event.preventDefault();
@@ -189,6 +192,10 @@ for(i = 0; i < goodBoxes.length; i++){
 var boxDivParaName = document.createElement('p');
     boxDivParaName .setAttribute('id',goodBoxes[i].name);
     boxDivParaName .setAttribute('data-box',goodBoxes[i].name);
+    boxDivParaName .setAttribute('data-length',goodBoxes[i].long);
+    boxDivParaName .setAttribute('data-height',goodBoxes[i].height);
+    boxDivParaName .setAttribute('data-width',goodBoxes[i].width);
+    boxDivParaName .setAttribute('data-clicked','false');
     boxDivParaName .classList.add('paraBoxDiv');     
     boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
     boxesIdGlobe.push(boxDivParaName);
@@ -226,10 +233,10 @@ orderInput.removeEventListener('input', undecorateMatches);
 function howManyBoxesHowManyPiecesIn(){
     var filtHeigth = parseFloat(inpHeight.value);
     var filtWidth = parseFloat(inpWidth.value);
-    var filtDepth = 1;
+    var filtDepth = 10;// in mm
     var filtVolumen = filtDepth * filtHeigth * filtWidth;
     var totalFilts = parseFloat(inpNumber.value);
-    for(i = 0; i < boxes.length; i ++){
+    for(i = 0; i < goodBoxes.length; i ++){
             var boxWidth = goodBoxes[i].width;
             var boxLength = goodBoxes[i].long ; 
             var boxHeight = goodBoxes[i].height;
@@ -240,28 +247,66 @@ function howManyBoxesHowManyPiecesIn(){
 //        console.log(goodBoxes[i].name, totalBoxes, totalFiltsInBox);
             var para = document.getElementById(goodBoxes[i].name);
                 idCollector.push(para);
+//            let currentPara = para;
+    (function (currentPara){
             var spanOfVolumen = document.createElement('p');
-                spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} in one box`;
-                para.append(spanOfVolumen);
-                para.addEventListener('click',playingTetris);
-    }
+                spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} max in one box`;
+                currentPara.appendChild(spanOfVolumen);
+                currentPara.addEventListener('click',playingTetris);
+                currentPara.addEventListener('click',function(){
+                clickedParagraphs.push(currentPara);
+                })
+    
+        })(para);
+    }}
+ howManyBoxesHowManyPiecesIn(); 
+//     var clickedParagraphs = []
+//          matches
+     
+     /* para.addEventListener('click',function(){
+                para.dataset.clicked = 'true'; 
+                });*/
 }
- howManyBoxesHowManyPiecesIn();     
+/*
+function checkClickedStatus(info){
+    
 }
+*/
 function playingTetris(){
-var boxModelContainer = document.createElement('div');
+//declaring variables
+    var boxes = goodBoxesGlobaly;
+//    var paragraphs = 
+    console.log(clickedParagraphs);
+   /* var para = document.getElementById(boxes[6].name);
+    console.log(para);
+    if( para.dataset.clicked == 'true'){
+        alert('Already clicked')
+    }*/
+    var boxModelContainer = document.createElement('div');
     boxModelContainer.classList.add('tetrisPlaying');
     var deleteButton = document.createElement('button');
     boxModelContainer.appendChild(deleteButton);
     deleteButton.classList.add('tetrisButt');
     deleteButton.addEventListener('click',function(){
-     centerContainer.removeChild(boxModelContainer);     
-    })
-var leftSide = document.createElement('div');
-var rightSide= document.createElement('div');
-var topSide = document.createElement('div');
-var downSide= document.createElement('div');
-var bottom = document.createElement('div');
+    centerContainer.removeChild(boxModelContainer);     
+    });
+    
+   /* orderInputs.forEach(function (orderInput){
+    addEventListener('click',function(){
+        centerContainer.removeChild(boxModelContainer);    
+    });
+    });*/
+   
+    var leftSide = document.createElement('div');
+    leftSide.classList.add('boxSides');
+    var rightSide= document.createElement('div');
+    rightSide.classList.add('boxSides');
+    var topSide = document.createElement('div');
+    topSide.classList.add('boxSides');
+    var downSide= document.createElement('div');
+    downSide.classList.add('boxSides');
+    var bottom = document.createElement('div');
+    bottom.classList.add('boxSides');
     boxModelContainer.appendChild(bottom, downSide, leftSide, rightSide,topSide);
    centerContainer.appendChild(boxModelContainer); 
-}
+ }
