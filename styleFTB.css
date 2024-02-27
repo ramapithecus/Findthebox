@@ -74,6 +74,10 @@ span{
     padding: 0.21em;
     font-size: var(--matContFont);
 }
+.matchDecor:hover{
+    background-color: blue;
+    height: 150%;
+}
 .tetrisPlaying{
     padding: .31em;
     position:relative;
@@ -93,5 +97,9 @@ span{
 }
 .tetrisButt:before{
     content: '\58';
+}
+.boxSides{
+    background-color: azure;
+    
     
 }

@@ -252,15 +252,20 @@ function howManyBoxesHowManyPiecesIn(){
             var spanOfVolumen = document.createElement('p');
                 spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} max in one box`;
                 currentPara.appendChild(spanOfVolumen);
-                currentPara.addEventListener('click',playingTetris);
                 currentPara.addEventListener('click',function(){
+                var index = clickedParagraphs.indexOf(currentPara);
+                    if ( index === -1){
                 clickedParagraphs.push(currentPara);
+                playingTetris();
+                    } else {
+                     alert(` It's already clicked`);   
+                    }
                 })
-    
         })(para);
     }}
  howManyBoxesHowManyPiecesIn(); 
 //     var clickedParagraphs = []
+     
 //          matches
      
      /* para.addEventListener('click',function(){
@@ -275,22 +280,33 @@ function checkClickedStatus(info){
 function playingTetris(){
 //declaring variables
     var boxes = goodBoxesGlobaly;
-//    var paragraphs = 
+    var ourPara = clickedParagraphs.pop();
+    console.log(ourPara);
+    clickedParagraphs.push(ourPara);
     console.log(clickedParagraphs);
-   /* var para = document.getElementById(boxes[6].name);
-    console.log(para);
-    if( para.dataset.clicked == 'true'){
-        alert('Already clicked')
-    }*/
+    var ourParaIndex = clickedParagraphs.indexOf(ourPara);
+    console.log(ourParaIndex);
     var boxModelContainer = document.createElement('div');
     boxModelContainer.classList.add('tetrisPlaying');
     var deleteButton = document.createElement('button');
     boxModelContainer.appendChild(deleteButton);
     deleteButton.classList.add('tetrisButt');
     deleteButton.addEventListener('click',function(){
-    centerContainer.removeChild(boxModelContainer);     
-    });
-    
+    centerContainer.removeChild(boxModelContainer);
+    removeParagraphAndUpdateArray(ourPara, function () {
+    console.log(clickedParagraphs);
+    });    
+    function removeParagraphAndUpdateArray(para, callback) {
+    var ourParaIndex = clickedParagraphs.indexOf(para);
+    if (ourParaIndex !== -1) {
+        clickedParagraphs.splice(ourParaIndex, 1);
+        callback()
+    };
+    }
+    })
+    var header = document.createElement('h3');
+        header.innerHTML = ourPara.dataset.box;
+        boxModelContainer.appendChild(header);
    /* orderInputs.forEach(function (orderInput){
     addEventListener('click',function(){
         centerContainer.removeChild(boxModelContainer);    
