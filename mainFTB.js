@@ -243,6 +243,10 @@ function howManyBoxesHowManyPiecesIn(){
             var boxVolumen = boxHeight * boxLength * boxWidth;
             var totalFiltsInBox = Math.floor(boxVolumen / filtVolumen); 
             var totalBoxes = Math.ceil(totalFilts / totalFiltsInBox);
+            var properFiltersInBox = Math.floor(totalFilts / totalBoxes);
+            console.log(properFiltersInBox);
+            var filtsRemainder = totalFilts % properFiltersInBox;
+            console.log(filtsRemainder);
 //        console.log(boxVolumen, filtVolumen);
 //        console.log(goodBoxes[i].name, totalBoxes, totalFiltsInBox);
             var para = document.getElementById(goodBoxes[i].name);
@@ -250,8 +254,11 @@ function howManyBoxesHowManyPiecesIn(){
 //            let currentPara = para;
     (function (currentPara){
             var spanOfVolumen = document.createElement('p');
-                spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${totalFiltsInBox} max in one box`;
+                spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${properFiltersInBox} of ${totalFiltsInBox} max in one box`;
                 currentPara.appendChild(spanOfVolumen);
+            var spanOfRemainder = document.createElement('p');
+                spanOfRemainder.innerText = `remainig filters : ${filtsRemainder}`;
+                currentPara.appendChild(spanOfRemainder);
                 currentPara.addEventListener('click',function(){
                 var index = clickedParagraphs.indexOf(currentPara);
                     if ( index === -1){
@@ -264,28 +271,16 @@ function howManyBoxesHowManyPiecesIn(){
         })(para);
     }}
  howManyBoxesHowManyPiecesIn(); 
-//     var clickedParagraphs = []
-     
-//          matches
-     
-     /* para.addEventListener('click',function(){
-                para.dataset.clicked = 'true'; 
-                });*/
 }
-/*
-function checkClickedStatus(info){
-    
-}
-*/
 function playingTetris(){
 //declaring variables
     var boxes = goodBoxesGlobaly;
     var ourPara = clickedParagraphs.pop();
-    console.log(ourPara);
+//    console.log(ourPara);
     clickedParagraphs.push(ourPara);
-    console.log(clickedParagraphs);
+//    console.log(clickedParagraphs);
     var ourParaIndex = clickedParagraphs.indexOf(ourPara);
-    console.log(ourParaIndex);
+//    console.log(ourParaIndex);
     var boxModelContainer = document.createElement('div');
     boxModelContainer.classList.add('tetrisPlaying');
     var deleteButton = document.createElement('button');
@@ -293,9 +288,7 @@ function playingTetris(){
     deleteButton.classList.add('tetrisButt');
     deleteButton.addEventListener('click',function(){
     centerContainer.removeChild(boxModelContainer);
-    removeParagraphAndUpdateArray(ourPara, function () {
-    console.log(clickedParagraphs);
-    });    
+    removeParagraphAndUpdateArray(ourPara);
     function removeParagraphAndUpdateArray(para, callback) {
     var ourParaIndex = clickedParagraphs.indexOf(para);
     if (ourParaIndex !== -1) {
@@ -307,22 +300,36 @@ function playingTetris(){
     var header = document.createElement('h3');
         header.innerHTML = ourPara.dataset.box;
         boxModelContainer.appendChild(header);
-   /* orderInputs.forEach(function (orderInput){
-    addEventListener('click',function(){
-        centerContainer.removeChild(boxModelContainer);    
-    });
-    });*/
-   
+    var sides = document.querySelectorAll('.boxSides');
+//    console.log(sides);
     var leftSide = document.createElement('div');
     leftSide.classList.add('boxSides');
+//    leftSide.style.height = `${ourPara.dataset.height}px`;
+//    console.log(ourPara.dataset.height);
     var rightSide= document.createElement('div');
-    rightSide.classList.add('boxSides');
+//    rightSide.classList.add('boxSides');
+//    rightSide.style.height = `${ourPara.dataset.heigth}px`;
+//    console.log(ourPara.dataset.height);
     var topSide = document.createElement('div');
     topSide.classList.add('boxSides');
+//    topSide.style.height = ourPara.dataset.heigth;
+//    console.log(ourPara.dataset.height);
     var downSide= document.createElement('div');
     downSide.classList.add('boxSides');
+//    downSide.style.height = ourPara.dataset.heigth;
+//    console.log(ourPara.dataset.height);
     var bottom = document.createElement('div');
     bottom.classList.add('boxSides');
+    bottom.style.height = `calc(${ourPara.dataset.height}px * 0.5)`;
+    bottom.style.width = `calc(${ourPara.dataset.width})px * 0.5`;
+    
+//    console.log(ourPara.dataset.height);
     boxModelContainer.appendChild(bottom, downSide, leftSide, rightSide,topSide);
-   centerContainer.appendChild(boxModelContainer); 
+    centerContainer.appendChild(boxModelContainer); 
+    orderInputs.forEach(function (orderInput){
+    addEventListener('input',function(){
+    centerContainer.removeChild(boxModelContainer);
+     
+    });
+    });
  }

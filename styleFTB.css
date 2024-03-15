@@ -67,23 +67,24 @@ span{
     font-family: serif;
     margin: 0.25em; 
     padding: 0.11em;
+    text-align: justify-all;
 }
 .matchDecor{
     background-color: #3a760e; //green//
     height: calc(1.5* var(--matContFont));
     padding: 0.21em;
     font-size: var(--matContFont);
+    text-align: center;     
 }
 .matchDecor:hover{
     background-color: blue;
-    height: 150%;
 }
 .tetrisPlaying{
-    padding: .31em;
+    padding: .81em;
     position:relative;
     background-color: palegreen;
     height: inherit;
-    width: 35%;
+    width: 45%;
     border: .25em solid brown;
 }
 .tetrisButt{
@@ -99,7 +100,8 @@ span{
     content: '\58';
 }
 .boxSides{
-    background-color: azure;
+    background-color: sienna;
+    border: .1em solid black;
     
     
 }
