@@ -80,28 +80,37 @@ span{
     background-color: blue;
 }
 .tetrisPlaying{
-    padding: .81em;
-    position:relative;
+/*    position:relative;*/
     background-color: palegreen;
-    height: inherit;
-    width: 45%;
+    height: auto;
+    width: auto;
     border: .25em solid brown;
+    padding: .81em;
+    perspective: 1000px;
+    position: relative;
+    
 }
 .tetrisButt{
     color: black;
     font-size: calc(.97* var(--matContFont));
     position: absolute;
     right: 1em;
-    width: auto;
-    height:auto;    
     padding: .25em;
 }
 .tetrisButt:before{
     content: '\58';
 }
+.box{
+    position: relative;
+    transform-style: preserve-3d;
+    margin: 0.45em;
+}
 .boxSides{
     background-color: sienna;
     border: .1em solid black;
+/*    position: absolute;*/
+/*    height: inherit;*/
+/*    width: inherit;*/
     
     
 }
