@@ -86,9 +86,9 @@ span{
     width: auto;
     border: .25em solid brown;
     padding: .81em;
-    perspective: 1000px;
     position: relative;
-    
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }
 .tetrisButt{
     color: black;
@@ -100,17 +100,57 @@ span{
 .tetrisButt:before{
     content: '\58';
 }
+.canvaClass{
+/*   background-color: antiquewhite; */
+    opacity: 1.65;
+    border: 1px solid black;
+    cursor:grabbing;
+/*   width: 400px;*/
+/*   height: 400px; */
+/*  / display: block;*/
+/*    position: absolute;*/
+    margin: 1.1vw;  
+    transition: transform .4s ease-in-out;
+    z-index: 2;
+/*   transform:  rotateZ(80deg);    */
+}
+.canvaClass:hover{
+    transform: rotateX(60deg);
+}
 .box{
     position: relative;
-    transform-style: preserve-3d;
     margin: 0.45em;
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }
 .boxSides{
+/*    display: flex;*/
     background-color: sienna;
     border: .1em solid black;
+    text-align: center;
+/*    justify-content: center;*/
 /*    position: absolute;*/
 /*    height: inherit;*/
 /*    width: inherit;*/
     
     
+}
+.back{
+  transform: translateZ(-120px);
+   background-color: whitesmoke;      
+}
+.left{
+   transform: translate(-106px,-120px) rotateY(91deg) ; 
+   background-color: orange; 
+}
+.right{
+   transform: translate(40px,-245px) rotateY(89deg);
+   background-color: darkorange;
+}
+.front{
+    
+}
+.down{
+  background-color: mediumpurple; 
+  transform:  rotateX(70deg) translateY(-700px) rotateZ(90deg);   
 }

@@ -263,7 +263,7 @@ function howManyBoxesHowManyPiecesIn(){
                 var index = clickedParagraphs.indexOf(currentPara);
                     if ( index === -1){
                 clickedParagraphs.push(currentPara);
-                playingTetris();
+                creatingTetris();
                     } else {
                      alert(` It's already clicked`);   
                     }
@@ -272,7 +272,7 @@ function howManyBoxesHowManyPiecesIn(){
     }}
  howManyBoxesHowManyPiecesIn(); 
 }
-function playingTetris(){
+function creatingTetris(){
 //declaring variables
     var boxes = goodBoxesGlobaly;
     var ourPara = clickedParagraphs.pop();
@@ -281,13 +281,13 @@ function playingTetris(){
 //    console.log(clickedParagraphs);
     var ourParaIndex = clickedParagraphs.indexOf(ourPara);
 //    console.log(ourParaIndex);
-    var boxModelContainer = document.createElement('div');
-    boxModelContainer.classList.add('tetrisPlaying');
+    var tetrisContainer = document.createElement('div');
+    tetrisContainer.classList.add('tetrisPlaying');
     var deleteButton = document.createElement('button');
-    boxModelContainer.appendChild(deleteButton);
+    tetrisContainer.appendChild(deleteButton);
     deleteButton.classList.add('tetrisButt');
     deleteButton.addEventListener('click',function(){
-    centerContainer.removeChild(boxModelContainer);
+    centerContainer.removeChild(tetrisContainer);
     removeParagraphAndUpdateArray(ourPara);
     function removeParagraphAndUpdateArray(para, callback) {
     var ourParaIndex = clickedParagraphs.indexOf(para);
@@ -297,55 +297,92 @@ function playingTetris(){
     };
     }
     })
-    var header = document.createElement('h3');
-        header.innerHTML = ourPara.dataset.box;
-        boxModelContainer.appendChild(header);
-    // creating cube/ box
-   /* const canvas = document.getElementById('canvas');
-//          canvas.setAttribute('','');   
-//          canvas.setAttribute('','');   
-    const ctx = canvas.getContext('2d');
-    function drawBox(){
-        
-    }*/
+    // karton name as a header for div
+    var tetrisContHeader = document.createElement('h3');
+        tetrisContHeader.innerHTML = ourPara.dataset.box;
+        tetrisContainer.appendChild(tetrisContHeader);
     
-    var karton = document.createElement('div');
-    karton.classList.add('box')       
-    var leftSide = document.createElement('div');
-    leftSide.classList.add('boxSides');
-//    leftSide.style.height = `${ourPara.dataset.height}px`;
-//    console.log(ourPara.dataset.height);
-    var rightSide= document.createElement('div');
-//    rightSide.classList.add('boxSides');
-//    rightSide.style.height = `${ourPara.dataset.height}px`;
-//    console.log(ourPara.dataset.height);
-    var topSide = document.createElement('div');
-    topSide.classList.add('boxSides');
-//    topSide.style.height = ourPara.dataset.height;
-//    console.log(ourPara.dataset.height);
-    var downSide= document.createElement('div');
-    downSide.classList.add('boxSides');
-//    downSide.style.height = ourPara.dataset.height;
-//    console.log(ourPara.dataset.height);
-    var bottomSide = document.createElement('div');
-    bottomSide.classList.add('boxSides');
-    bottomSide.innerHTML = 'bottom'
-    bottomSide.style.width = `calc(${parseFloat(ourPara.dataset.width)}px * 0.2)`;
-    bottomSide.style.height = `calc(${parseFloat(ourPara.dataset.height)}px * 0.2) `;
-//    bottomSide.style.transform = `rotateX(45deg)`;
-//    console.log(ourPara.dataset.length * 0.4);
-//    console.log(bottomSide.style.height, bottomSide.style.width ); 
-   /* const hoho = window.getComputedStyle(bottomSide, null);
-    const popo = hoho.getPropertyValue('height');
-    console.log(popo)*/
-//    console.log(ourPara.dataset.height);
-    karton.appendChild(bottomSide, downSide, leftSide, rightSide,topSide);
-    boxModelContainer.appendChild(karton);
-    centerContainer.appendChild(boxModelContainer); 
+    // creating cube/ box
+  var canvas = document.createElement('canvas');
+      canvas.classList.add('canvaClass');
+  var canvaID = `canva_${ourPara.dataset.box}`;
+//      console.log(canvaID);   
+      canvas.setAttribute('id',canvaID);
+//      canvas.setAttribute('width','200px');   
+//      canvas.setAttribute('height','200px');   
+    const ctx = canvas.getContext('2d');
+//    ctx.style.cursor = 'crosshair';
+ // Define vertices of the cube
+    const vertices = [
+      { x: -2, y: -1, z: 1 },  // Vertex 0
+      { x: 2, y: -1, z: 1 },   // Vertex 1
+      { x: 2, y: 1, z: 1 },    // Vertex 2
+      { x: -2, y: 1, z: 1 },   // Vertex 3
+      { x: -2, y: -1, z: -1 }, // Vertex 4
+      { x: 2, y: -1, z: -1 },  // Vertex 5
+      { x: 2, y: 1, z: -1 },   // Vertex 6
+      { x: -2, y: 1, z: -1 }   // Vertex 7
+    ];
+
+    // Define edges of the cube
+    const edges = [
+      [0, 1], [1, 2], [2, 3], [3, 0], // Front face
+      [4, 5], [5, 6], [6, 7], [7, 4], // Back face
+      [0, 4], [1, 5], [2, 6], [3, 7]  // Connecting edges
+    ];
+
+    // Projection function to convert 3D coordinates to 2D
+    const projection = (vertex) => {
+      const scale = 200; // Scale factor for the projection
+      const distance = 5; // Distance from the viewer to the object
+      const zOffset = 4; // Offset to avoid division by zero and to position the cube properly
+      return {
+        x: (vertex.x / (vertex.z + zOffset)) * scale + canvas.width / 2,
+        y: (vertex.y / (vertex.z + zOffset)) * scale + canvas.height / 2
+      };
+    };
+
+    // Function to draw the cube
+    const drawCube = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 2.5;
+
+      edges.forEach(([startIndex, endIndex]) => {
+        const startVertex = projection(vertices[startIndex]);
+        const endVertex = projection(vertices[endIndex]);
+        ctx.beginPath();
+        ctx.moveTo(startVertex.x, startVertex.y);
+        ctx.lineTo(endVertex.x, endVertex.y);
+        ctx.stroke();
+      });
+    };
+    drawCube();
+    
+    //appending elements and adding/removing event listeners
+    tetrisContainer.appendChild(canvas);
+//    canvas.addEventListener('',playingTetris);
+    centerContainer.appendChild(tetrisContainer); 
     orderInputs.forEach(function (orderInput){
     addEventListener('input',function(){
-    centerContainer.removeChild(boxModelContainer);
+    centerContainer.removeChild(tetrisContainer);
      
     });
     });
+    var standButt = document.createElement('button');  
+    standButt.innerHTML = ' na stojáka';
+    var layButt = document.createElement('button');    
+    layButt.innerHTML = ' na ležato';
+    var kantButt = document.createElement('button'); 
+    kantButt.innerHTML = ' na kánt';
+    tetrisContainer.appendChild(standButt);
+    tetrisContainer.appendChild(layButt);
+    tetrisContainer.appendChild(kantButt);
+/*function playingTetris(){
+    var playGround = document.querySelector('.tetrisPlaying');
+    console.log(playGround);
+    var canvaModel = document.querySelector('.canvaClass');
+    console.log(canvaModel);
+}*/
+//  playingTetris(); 
  }
