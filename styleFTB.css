@@ -25,6 +25,9 @@
     color: orangered;
     background-color: peachpuff;
 }
+kartonInputs{
+    color: chartreuse;
+}
 .centerFields{
     width: 95%;
     margin: 0.15em;
@@ -67,7 +70,6 @@ span{
     font-family: serif;
     margin: 0.25em; 
     padding: 0.11em;
-    text-align: justify-all;
 }
 .matchDecor{
     background-color: #3a760e; //green//
@@ -101,21 +103,24 @@ span{
     content: '\58';
 }
 .canvaClass{
-/*   background-color: antiquewhite; */
+   background-color: antiquewhite; 
     opacity: 1.65;
     border: 1px solid black;
     cursor:grabbing;
-/*   width: 400px;*/
-/*   height: 400px; */
-/*  / display: block;*/
-/*    position: absolute;*/
-    margin: 1.1vw;  
-    transition: transform .4s ease-in-out;
-    z-index: 2;
-/*   transform:  rotateZ(80deg);    */
+    
+/*    width: 400px;*/
+/*    height: 400px; */
+/*    display: block;*/
+/*    position: relative;*/
+/*    margin: 0;  */
+/*    transition: transform  1s ease-in-out;*/
+/*    transition: height 1s ease-in-out;*/
+/*    z-index: 2;*/
+/*    transform:  rotateX(80deg);    */
 }
 .canvaClass:hover{
-    transform: rotateX(60deg);
+    transform: rotateX(360deg);
+/*    max-height: 800px!important;*/
 }
 .box{
     position: relative;
