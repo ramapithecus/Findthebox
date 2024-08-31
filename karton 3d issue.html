@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styleFTB.css ">
+<title>Find the box</title>
+ <meta charset="UTF-8">
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"> 
+</head>   
+<body> 
+<!--  <script src="mainFTB.js"> </script>  -->
+    <script>
+//HTML page crreation        
+     var kartonContainer = document.createElement('div');
+   document.body.appendChild(kartonContainer);
+    kartonContainer.classList.add('kartonContainer');
+var karton = document.createElement('div');
+    kartonContainer.appendChild(karton);
+    karton.classList.add('karton');
+var frontSide = document.createElement('div');
+    frontSide.innerHTML = 'front';
+    frontSide.classList.add('kartonFaces','front');
+    karton.appendChild(frontSide);
+var bottomSide = document.createElement('div');
+    bottomSide.classList.add('kartonFaces','bottom')
+    bottomSide.innerHTML = 'bottom'
+    karton.appendChild(bottomSide);;
+var leftSide = document.createElement('div');
+    leftSide.classList.add('kartonFaces','left')
+    leftSide.innerHTML = 'left';
+    karton.appendChild(leftSide);
+var rightSide = document.createElement('div');
+    rightSide.classList.add('kartonFaces','right')
+    rightSide.innerHTML = 'right';
+    karton.appendChild(rightSide);
+var topSide = document.createElement('div');
+    topSide.classList.add('kartonFaces','top')
+    topSide.innerHTML = 'top';
+    karton.appendChild(topSide);
+var backSide = document.createElement('div');
+    backSide.classList.add('kartonFaces','back')
+    backSide.innerHTML = 'back';
+    karton.appendChild(backSide);
+//function
+        function rotateKarton(e){
+    var krabica = document.querySelectorAll('.karton');
+//    console.log(krabica);
+    var x = e.clientX - window.innerWidth;
+    var y = e.clientY - window.innerHeight;
+    var q = 0.55;//mouse sensitivity and rotating speed)
+    var k = 1.55;
+    
+    x = x * q * k;
+    y = -y * q * k;
+    
+    for(i = 0; i < krabica.length; i++){
+        krabica[i].style.transform = 'rotateY('+ x +'deg) rotateX('+ y +'deg)';
+    }
+//        console.log(`Rotate to: X = ${x} deg, Y = ${y} deg`);
+    }
+document.body.addEventListener('mouseo r', rotateKarton);
+    </script>
+    </body>
+</html>

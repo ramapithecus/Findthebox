@@ -1,6 +1,15 @@
 :root{
 --darkblue: #070750;
---matContFont: 1em;    
+--matContFont: 1em;  
+--kartonSize: 200px;    
+}
+body{
+    perspective:1000px;
+}
+span{
+   color: blue; 
+   padding-left:.11em;
+   margin: 0.1em;    
 }
 .headingClass{
     color: var(--darkblue);
@@ -25,6 +34,9 @@
     color: orangered;
     background-color: peachpuff;
 }
+.kartonInputs{
+    color: chartreuse;
+}
 .centerFields{
     width: 95%;
     margin: 0.15em;
@@ -43,11 +55,6 @@
     padding-left: 0.45em ;
     padding-right: 1em;
    }
-span{
-   color: blue; 
-   padding-left:.11em;
-   margin: 0.1em;    
-}
 .boxFill{
     background-color: palegreen;
     border: .25em solid brown;
@@ -67,7 +74,6 @@ span{
     font-family: serif;
     margin: 0.25em; 
     padding: 0.11em;
-    text-align: justify-all;
 }
 .matchDecor{
     background-color: #3a760e; //green//
@@ -79,7 +85,7 @@ span{
 .matchDecor:hover{
     background-color: blue;
 }
-.tetrisPlaying{
+.tetrisContainer{
 /*    position:relative;*/
     background-color: palegreen;
     height: auto;
@@ -87,8 +93,8 @@ span{
     border: .25em solid brown;
     padding: .81em;
     position: relative;
-    perspective: 1000px;
-    transform-style: preserve-3d;
+/*    perspective: 1000px;*/
+/*    transform-style: preserve-3d;*/
 }
 .tetrisButt{
     color: black;
@@ -100,57 +106,79 @@ span{
 .tetrisButt:before{
     content: '\58';
 }
-.canvaClass{
-/*   background-color: antiquewhite; */
-    opacity: 1.65;
-    border: 1px solid black;
-    cursor:grabbing;
-/*   width: 400px;*/
-/*   height: 400px; */
-/*  / display: block;*/
-/*    position: absolute;*/
-    margin: 1.1vw;  
-    transition: transform .4s ease-in-out;
-    z-index: 2;
-/*   transform:  rotateZ(80deg);    */
-}
-.canvaClass:hover{
-    transform: rotateX(60deg);
-}
-.box{
-    position: relative;
-    margin: 0.45em;
-    perspective: 1000px;
-    transform-style: preserve-3d;
-}
-.boxSides{
-/*    display: flex;*/
-    background-color: sienna;
-    border: .1em solid black;
+.kartonContainer{
+    display: flex;
+    height: var(--kartonSize);
+    width: calc(var(--kartonSize)*2);
+/*    background-color: sienna;*/
+/*    border: .12em solid black;*/
+/*    color: darkblue;*/
+/*    font-weight: bolder;*/
+    justify-content: center;
+    align-items: center;
     text-align: center;
-/*    justify-content: center;*/
-/*    position: absolute;*/
-/*    height: inherit;*/
-/*    width: inherit;*/
-    
-    
+    perspective: 2000px;
+    position: relative;
+    margin:  calc(var(--kartonSize)/2) auto;
+/*    transform: translateZ(-200px) rotateX(0deg);*/
+   }
+.karton{
+    height:var(--kartonSize);
+    width: calc(var(--kartonSize)*2);
+    transform-style: preserve-3d;
+    transform: rotateX(-30deg);
+    transition: all  0.5s ease-out;
+}
+.karton:hover{
+  transition: all  0.5s ease-out;  
+}
+/*common style for all sides*/
+.kartonFaces{
+   border: 2px solid red;
+   box-sizing: border-box;
+   display: flex;
+   justify-content: center;
+   align-items: center; 
+   position: absolute;
+   opacity: 0.4;
+   height: var(--kartonSize);
+   width:  calc(var(--kartonSize)*2);
+   cursor: alias;
+/*   color: blue;*/
+   font-size: calc(var(--kartonSize)/4);    
+  -webkit-text-stroke: 4px darkblue;    
+}
+
+.front{
+    background-color: darkorange;
+    transform:  translateZ(calc(var(--kartonSize)/2)) ;
+/*    width: 300px*/
+/*    width: 20em;*/
+/*    z-index: 1;*/
 }
 .back{
-  transform: translateZ(-120px);
-   background-color: whitesmoke;      
+  background-color: ghostwhite;
+  transform: rotateY(180deg) translateZ(calc(var(--kartonSize)/2));
+/*   transform: rotateY(45deg)*/
+/*   width: 2;    */
 }
 .left{
-   transform: translate(-106px,-120px) rotateY(91deg) ; 
-   background-color: orange; 
+   background-color: rosybrown; 
+   transform: translateZ(calc(var(--kartonSize)/2)) rotateY(-90deg)
+              translateZ(var(--kartonSize)) scaleX(0.5) 
+              translateX(calc(var(--kartonSize)*-1));
 }
 .right{
-   transform: translate(40px,-245px) rotateY(89deg);
    background-color: darkorange;
+   transform: translateZ(calc(var(--kartonSize)/2)) rotateY(90deg)
+              translateZ(var(--kartonSize)) scaleX(0.5) 
+            translateX(var(--kartonSize));
 }
-.front{
-    
-}
-.down{
+.bottom{
   background-color: mediumpurple; 
-  transform:  rotateX(70deg) translateY(-700px) rotateZ(90deg);   
+  transform:  rotateX(-90deg) translateZ(calc(var(--kartonSize)/2)) rotateZ(0deg);   
+}
+.top{
+  background-color: cadetblue; 
+  transform: rotateX(90deg) translateZ(calc(var(--kartonSize)/2));
 }

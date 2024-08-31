@@ -84,11 +84,6 @@ matConHeader.append(spanHeigth);
 var spanwidth = document.createElement('span');
 spanwidth.innerHTML = 'width';
 matConHeader.append(spanwidth);
-/*var matContSpans = document.querySelectorAll('span');
-matContSpans.forEach(function (matContSpan) {
-    matContSpan.classList.add('matSpan');
-//matContainer.appendChild(matContSpan);    
-})*/
 //functions
 async function getFilterMatData() {
     const response = await fetch('FilterType.csv');
@@ -102,17 +97,14 @@ for(i = 0; i < arrayMaterials.length; i++ ){
     orderMaterialsSelect.add(optMat);
 }  
 }
-//executing function
+//functions
 getFilterMatData();
+
  async function boxToObject(){
     const responseBox =  await fetch('boxType.csv');
     const boxData =  await responseBox.text();
 var arrayBoxes = boxData.split('\n');   
-//var boxParameters = [];     
 var boxHeaders =['name', 'long', 'height', 'width'];       
-//console.log(arrayBoxes) 
-//console.log(boxParameters)         
-//console.log(boxHeaders)
     for (var i = 0; i < arrayBoxes.length; i++) {
         var obj = {};
         if(arrayBoxes[i] == undefined || arrayBoxes[i].trim() == "") {
@@ -130,12 +122,12 @@ var boxHeaders =['name', 'long', 'height', 'width'];
  matContainer.appendChild(paraBoxName);   
     }
   }
-//executing function
 boxToObject();
+
  function boxChooser(event){
 event.preventDefault();
-//undecorateMatches();     
-var matHeight = parseFloat(inpHeight.value);
+
+     var matHeight = parseFloat(inpHeight.value);
 var matWidth = parseFloat(inpWidth.value);
 var matPieces = parseFloat(inpNumber.value); 
 var biggerSideOfMat, lesserSideOfMat;
@@ -152,7 +144,6 @@ var possibleBoxes = [];
 var badBoxes = [];
 var goodBoxes = [];
 var paraBoxes = document.querySelectorAll('.paraBox'); 
-//var AllBoxesNames = [];     
 //filter possible boxes, at least one side of box must be bigger than the bigger side of filter cut
 for(i = 0; i < boxes.length; i++){
     if( boxes[i].width > biggerSideOfMat || 
@@ -173,7 +164,6 @@ if(possibleBoxes[i].width > lesserSideOfMat && possibleBoxes[i].long > lesserSid
 goodBoxes.push(possibleBoxes[i]);
     }
 }
-//console.log(goodBoxes)     
 //Global variable with good boxes 
 goodBoxesGlobaly = goodBoxes;
 function boxFillCreation(){
@@ -185,11 +175,12 @@ var boxFillCont = document.createElement('div');
         boxFillHeader.innerText = 'pure volumen';    
     boxFillCont.appendChild(boxFillHeader);
  }
-boxFillCreation();    
+boxFillCreation(); 
+     
 // making a div with boxes that match the criteria     
 var boxDiv = document.querySelector('.boxFill');
 for(i = 0; i < goodBoxes.length; i++){     
-var boxDivParaName = document.createElement('p');
+    var boxDivParaName = document.createElement('p');
     boxDivParaName .setAttribute('id',goodBoxes[i].name);
     boxDivParaName .setAttribute('data-box',goodBoxes[i].name);
     boxDivParaName .setAttribute('data-length',goodBoxes[i].long);
@@ -199,12 +190,10 @@ var boxDivParaName = document.createElement('p');
     boxDivParaName .classList.add('paraBoxDiv');     
     boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
     boxesIdGlobe.push(boxDivParaName);
-boxDiv.appendChild(boxDivParaName);  
+    boxDiv.appendChild(boxDivParaName);  
 }
 //colouring boxes that matches criteria     
 var matches = document.querySelectorAll('.paraBoxDiv'); 
-//console.log(matches);
-//console.log(boxesIdGlobe);
 function decorateMatches(){
 matches.forEach(function(match){
 match.classList.add('matchDecor');
@@ -212,11 +201,9 @@ match.classList.add('matchDecor');
 orderButt.removeEventListener('click', boxChooser);    
 }     
 decorateMatches();
-//boxesIdGlobe = matches;    
 orderInputs.forEach(function (orderInput){
 orderInput.addEventListener('input', undecorateMatches);     
 })
-//console.log(boxesIdGlobe); 
      //uncolouring boxes that matched the criteria
 function undecorateMatches(){
 var boxoFill = document.querySelector('.boxFill');
@@ -244,14 +231,9 @@ function howManyBoxesHowManyPiecesIn(){
             var totalFiltsInBox = Math.floor(boxVolumen / filtVolumen); 
             var totalBoxes = Math.ceil(totalFilts / totalFiltsInBox);
             var properFiltersInBox = Math.floor(totalFilts / totalBoxes);
-//            console.log(properFiltersInBox);
             var filtsRemainder = totalFilts % properFiltersInBox;
-//            console.log(filtsRemainder);
-//        console.log(boxVolumen, filtVolumen);
-//        console.log(goodBoxes[i].name, totalBoxes, totalFiltsInBox);
             var para = document.getElementById(goodBoxes[i].name);
                 idCollector.push(para);
-//            let currentPara = para;
     (function (currentPara){
             var spanOfVolumen = document.createElement('p');
                 spanOfVolumen.innerText = `${totalBoxes} boxes, for cca ${properFiltersInBox} of ${totalFiltsInBox} max in one box`;
@@ -259,6 +241,12 @@ function howManyBoxesHowManyPiecesIn(){
             var spanOfRemainder = document.createElement('p');
                 spanOfRemainder.innerText = `remainig filters : ${filtsRemainder}`;
                 currentPara.appendChild(spanOfRemainder);
+        /*for drawing cue purposes*/
+                currentPara.addEventListener('click',function(){
+                    matContainer.style.width = '4%';
+                var boxConto = document.querySelector('.boxFill');
+                    boxConto.style.width = '4%';
+                })   
                 currentPara.addEventListener('click',function(){
                 var index = clickedParagraphs.indexOf(currentPara);
                     if ( index === -1){
@@ -282,7 +270,8 @@ function creatingTetris(){
     var ourParaIndex = clickedParagraphs.indexOf(ourPara);
 //    console.log(ourParaIndex);
     var tetrisContainer = document.createElement('div');
-    tetrisContainer.classList.add('tetrisPlaying');
+    tetrisContainer.classList.add('tetrisContainer');
+   centerContainer.appendChild(tetrisContainer); 
     var deleteButton = document.createElement('button');
     tetrisContainer.appendChild(deleteButton);
     deleteButton.classList.add('tetrisButt');
@@ -303,72 +292,55 @@ function creatingTetris(){
         tetrisContainer.appendChild(tetrisContHeader);
     
     // creating cube/ box
-  var canvas = document.createElement('canvas');
-      canvas.classList.add('canvaClass');
-  var canvaID = `canva_${ourPara.dataset.box}`;
-//      console.log(canvaID);   
-      canvas.setAttribute('id',canvaID);
-//      canvas.setAttribute('width','200px');   
-//      canvas.setAttribute('height','200px');   
-    const ctx = canvas.getContext('2d');
-//    ctx.style.cursor = 'crosshair';
- // Define vertices of the cube
-    const vertices = [
-      { x: -2, y: -1, z: 1 },  // Vertex 0
-      { x: 2, y: -1, z: 1 },   // Vertex 1
-      { x: 2, y: 1, z: 1 },    // Vertex 2
-      { x: -2, y: 1, z: 1 },   // Vertex 3
-      { x: -2, y: -1, z: -1 }, // Vertex 4
-      { x: 2, y: -1, z: -1 },  // Vertex 5
-      { x: 2, y: 1, z: -1 },   // Vertex 6
-      { x: -2, y: 1, z: -1 }   // Vertex 7
-    ];
-
-    // Define edges of the cube
-    const edges = [
-      [0, 1], [1, 2], [2, 3], [3, 0], // Front face
-      [4, 5], [5, 6], [6, 7], [7, 4], // Back face
-      [0, 4], [1, 5], [2, 6], [3, 7]  // Connecting edges
-    ];
-
-    // Projection function to convert 3D coordinates to 2D
-    const projection = (vertex) => {
-      const scale = 200; // Scale factor for the projection
-      const distance = 5; // Distance from the viewer to the object
-      const zOffset = 4; // Offset to avoid division by zero and to position the cube properly
-      return {
-        x: (vertex.x / (vertex.z + zOffset)) * scale + canvas.width / 2,
-        y: (vertex.y / (vertex.z + zOffset)) * scale + canvas.height / 2
-      };
-    };
-
-    // Function to draw the cube
-    const drawCube = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'blue';
-      ctx.lineWidth = 2.5;
-
-      edges.forEach(([startIndex, endIndex]) => {
-        const startVertex = projection(vertices[startIndex]);
-        const endVertex = projection(vertices[endIndex]);
-        ctx.beginPath();
-        ctx.moveTo(startVertex.x, startVertex.y);
-        ctx.lineTo(endVertex.x, endVertex.y);
-        ctx.stroke();
-      });
-    };
-    drawCube();
+var kartonContainer = document.createElement('div');
+    tetrisContainer.appendChild(kartonContainer);
+    kartonContainer.classList.add('kartonContainer');
+var karton = document.createElement('div');
+    karton.classList.add('karton');
+    kartonContainer.appendChild(karton);
+var frontSide = document.createElement('div');
+    frontSide.innerHTML = 'front';
+    frontSide.classList.add('kartonFaces','front');
+    karton.appendChild(frontSide);
+var backSide = document.createElement('div');
+    backSide.classList.add('kartonFaces','back')
+    backSide.innerHTML = 'back';
+    karton.appendChild(backSide);
+var leftSide = document.createElement('div');
+    leftSide.classList.add('kartonFaces','left')
+    leftSide.innerHTML = 'left';
+    karton.appendChild(leftSide);
+var rightSide = document.createElement('div');
+    rightSide.classList.add('kartonFaces','right')
+    rightSide.innerHTML = 'right';
+    karton.appendChild(rightSide);
+var topSide = document.createElement('div');
+    topSide.classList.add('kartonFaces','top')
+    topSide.innerHTML = 'top';
+    karton.appendChild(topSide);
+var bottomSide = document.createElement('div');
+    bottomSide.classList.add('kartonFaces','bottom')
+    bottomSide.innerHTML = 'bottom'
+    karton.appendChild(bottomSide);
+//karton rotating
+function rotateKarton(e){
+    var krabica = document.querySelectorAll('.karton');
+//    console.log(krabica);
+    var x = e.clientX - window.innerWidth/2;
+    var y = e.clientY - window.innerHeight/2;
+    var q = 0.55;//mouse sensitivity and rotating speed)
+    var i;
     
-    //appending elements and adding/removing event listeners
-    tetrisContainer.appendChild(canvas);
-//    canvas.addEventListener('',playingTetris);
-    centerContainer.appendChild(tetrisContainer); 
-    orderInputs.forEach(function (orderInput){
-    addEventListener('input',function(){
-    centerContainer.removeChild(tetrisContainer);
-     
-    });
-    });
+    x = x * q * 1.25;
+    y = -y * q * 1.25;
+    
+    for(i = 0; i < krabica.length; i++){
+        krabica[i].style.transform = 'rotateY('+ x +'deg) rotateX('+ y +'deg)';
+    }
+//        console.log(`Rotate to: X = ${x} deg, Y = ${y} deg`);
+    }
+tetrisContainer.addEventListener('mouseover', rotateKarton);
+//buttons
     var standButt = document.createElement('button');  
     standButt.innerHTML = ' na stojáka';
     var layButt = document.createElement('button');    
@@ -378,11 +350,5 @@ function creatingTetris(){
     tetrisContainer.appendChild(standButt);
     tetrisContainer.appendChild(layButt);
     tetrisContainer.appendChild(kantButt);
-/*function playingTetris(){
-    var playGround = document.querySelector('.tetrisPlaying');
-    console.log(playGround);
-    var canvaModel = document.querySelector('.canvaClass');
-    console.log(canvaModel);
-}*/
-//  playingTetris(); 
  }
+//body.addEventListener('mousemove', rotateKarton);    
