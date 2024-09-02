@@ -207,7 +207,12 @@ orderInput.addEventListener('input', undecorateMatches);
      //uncolouring boxes that matched the criteria
 function undecorateMatches(){
 var boxoFill = document.querySelector('.boxFill');
-boxoFill.remove();        
+boxoFill.remove(); 
+var tetrisFill = document.querySelector('.tetrisContainer');    
+//console.log(tetrisFill);  
+if( tetrisFill !== null){
+    tetrisFill.remove();
+}    
 orderButt.addEventListener('click', boxChooser);
 matches.forEach(function(match){
 match.classList.remove('matchDecor');
@@ -339,7 +344,19 @@ function rotateKarton(e){
     }
 //        console.log(`Rotate to: X = ${x} deg, Y = ${y} deg`);
     }
-tetrisContainer.addEventListener('mouseover', rotateKarton);
+//function toggleMouseEvent
+    var toggler = 1;
+    function toggleMouseEvent(){
+    if( toggler == 1){
+        tetrisContainer.addEventListener('mouseover', rotateKarton);
+        toggler = 0;
+    }
+    else{
+         tetrisContainer.removeEventListener('mouseover', rotateKarton); 
+         toggler = 1;
+    }    
+}
+tetrisContainer.addEventListener('dblclick', toggleMouseEvent);
 //buttons
     var standButt = document.createElement('button');  
     standButt.innerHTML = ' na stojáka';
