@@ -17,7 +17,7 @@ var boxesIdGlobe = [];
 var boxParameters = [];
 var goodBoxesGlobaly = [];
 var idCollector = [];
-var clickedParagraphs = []
+var clickedParagraphs = [];
 // order details
 var orderContainer = document.createElement('div');
 gridContainer.append(orderContainer);
@@ -181,16 +181,20 @@ boxFillCreation();
 var boxDiv = document.querySelector('.boxFill');
 for(i = 0; i < goodBoxes.length; i++){     
     var boxDivParaName = document.createElement('p');
-    boxDivParaName .setAttribute('id',goodBoxes[i].name);
-    boxDivParaName .setAttribute('data-box',goodBoxes[i].name);
-    boxDivParaName .setAttribute('data-length',goodBoxes[i].long);
-    boxDivParaName .setAttribute('data-height',goodBoxes[i].height);
-    boxDivParaName .setAttribute('data-width',goodBoxes[i].width);
-    boxDivParaName .setAttribute('data-clicked','false');
-    boxDivParaName .classList.add('paraBoxDiv');     
-    boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
+    boxDivParaName.setAttribute('id',goodBoxes[i].name);
+    boxDivParaName.setAttribute('data-box',goodBoxes[i].name);
+    boxDivParaName.setAttribute('data-length',goodBoxes[i].long);
+    boxDivParaName.setAttribute('data-height',goodBoxes[i].height);
+    boxDivParaName.setAttribute('data-width',goodBoxes[i].width);
+    var boxDivVolume = parseFloat(goodBoxes[i].long * goodBoxes[i].height * goodBoxes[i].width);
+    boxDivParaName.setAttribute('data-rpm', boxDivVolume);//in mm3//
+    boxDivParaName.classList.add('paraBoxDiv');     
+//    boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
+    boxDivParaName.innerHTML = goodBoxes[i].name;
+    //    boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} - ${Math.floor(boxDivVolume/10000)*100} `;
     boxesIdGlobe.push(boxDivParaName);
-    boxDiv.appendChild(boxDivParaName);  
+    boxDiv.appendChild(boxDivParaName); 
+//    console.log(boxDivVolume);
 }
 //colouring boxes that matches criteria     
 var matches = document.querySelectorAll('.paraBoxDiv'); 
@@ -334,7 +338,7 @@ function rotateKarton(e){
     var x = e.clientX - window.innerWidth/2;
     var y = e.clientY - window.innerHeight/2;
     var q = 0.55;//mouse sensitivity and rotating speed)
-    var i;
+    var 
     
     x = x * q * 1.25;
     y = -y * q * 1.25;
@@ -348,24 +352,47 @@ function rotateKarton(e){
     var toggler = 1;
     function toggleMouseEvent(){
     if( toggler == 1){
-        tetrisContainer.addEventListener('mouseover', rotateKarton);
+        body.addEventListener('mouseover', rotateKarton);
         toggler = 0;
     }
     else{
-         tetrisContainer.removeEventListener('mouseover', rotateKarton); 
+         body.removeEventListener('mouseover', rotateKarton); 
          toggler = 1;
     }    
 }
-tetrisContainer.addEventListener('dblclick', toggleMouseEvent);
+body.addEventListener('dblclick', toggleMouseEvent);
 //buttons
     var standButt = document.createElement('button');  
+        standButt.setAttribute('id','standButt');
     standButt.innerHTML = ' na stojáka';
     var layButt = document.createElement('button');    
+        layButt.setAttribute('id','layButt');
     layButt.innerHTML = ' na ležato';
     var kantButt = document.createElement('button'); 
+        kantButt.setAttribute('id','kantButt');
     kantButt.innerHTML = ' na kánt';
     tetrisContainer.appendChild(standButt);
     tetrisContainer.appendChild(layButt);
     tetrisContainer.appendChild(kantButt);
+//    tetris playing with filters
+function filtersTetris(){
+    var standButt = document.getElementById('standButt');    
+    var layButt = document.getElementById('layButt');
+    var kantButt = document.getElementById('kantButt');
+//    var karton = document.getElementById(ourPara.dataset.box);
+    var kartonLength = ourPara.dataset.length;
+    var kartonHeight = ourPara.dataset.height;
+    var kartonWidth = ourPara.dataset.width;
+    var kartonVolumen = kartonWidth * kartonHeight *kartonLength;
+    var filtWidth = inpWidth.value;
+    var filtHeight = inpHeight.value;
+    var filtNumber = inpNumber.value;
+    var maxFilts =  ourPara.dataset.rpm;
+//    var extracted1 = document.getElementById().value;
+console.log(kartonLength,kartonHeight,kartonWidth/2);
+console.log(maxFilts);
+}
+
+filtersTetris();
  }
 //body.addEventListener('mousemove', rotateKarton);    
