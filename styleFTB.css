@@ -126,11 +126,13 @@ span{
     height:var(--kartonSize);
     width: calc(var(--kartonSize)*2);
     transform-style: preserve-3d;
-    transform: rotateX(-30deg);
+    transform: rotateZ(90deg);
     transition: all  0.5s ease-out;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 .karton:hover{
-  transition: all  0.5s ease-out;  
+  transition: all  0.2s ease-out;  
 }
 /*common style for all sides*/
 .kartonFaces{
@@ -145,13 +147,13 @@ span{
    width:  calc(var(--kartonSize)*2);
    cursor: alias;
 /*   color: blue;*/
-   font-size: calc(var(--kartonSize)/4);    
   -webkit-text-stroke: 4px darkblue;    
+   font-size: calc(var(--kartonSize)/4);    
 }
 
 .front{
-    background-color: darkorange;
-    transform:  translateZ(calc(var(--kartonSize)/2)) ;
+   background-color: darkorange;
+   transform:  translateZ(calc(var(--kartonSize)/2)) ;
 /*    width: 300px*/
 /*    width: 20em;*/
 /*    z-index: 1;*/

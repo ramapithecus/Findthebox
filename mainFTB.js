@@ -186,8 +186,9 @@ for(i = 0; i < goodBoxes.length; i++){
     boxDivParaName.setAttribute('data-length',goodBoxes[i].long);
     boxDivParaName.setAttribute('data-height',goodBoxes[i].height);
     boxDivParaName.setAttribute('data-width',goodBoxes[i].width);
+    //volume of the box in mm3 for further use
     var boxDivVolume = parseFloat(goodBoxes[i].long * goodBoxes[i].height * goodBoxes[i].width);
-    boxDivParaName.setAttribute('data-rpm', boxDivVolume);//in mm3//
+    boxDivParaName.setAttribute('data-rpm', boxDivVolume);
     boxDivParaName.classList.add('paraBoxDiv');     
 //    boxDivParaName .innerHTML = `${goodBoxes[i].name}  -  ${goodBoxes[i].long} - ${goodBoxes[i].height} - ${goodBoxes[i].width} `;
     boxDivParaName.innerHTML = goodBoxes[i].name;
@@ -383,14 +384,19 @@ function filtersTetris(){
     var kartonLength = ourPara.dataset.length;
     var kartonHeight = ourPara.dataset.height;
     var kartonWidth = ourPara.dataset.width;
-    var kartonVolumen = kartonWidth * kartonHeight *kartonLength;
+    var kartonVolumen = ourPara.dataset.rpm;
+//     kartonLength * kartonHeight * kartonWidth
     var filtWidth = inpWidth.value;
     var filtHeight = inpHeight.value;
     var filtNumber = inpNumber.value;
-    var maxFilts =  ourPara.dataset.rpm;
-//    var extracted1 = document.getElementById().value;
-console.log(kartonLength,kartonHeight,kartonWidth/2);
+    var filtThickness = 10;
+    var filtVolumen = filtHeight * filtWidth * filtThickness;
+    var maxFilts = Math.floor(kartonVolumen / filtVolumen);
+//console.log(kartonLength,kartonHeight,kartonWidth/2);
 console.log(maxFilts);
+    
+    
+    
 }
 
 filtersTetris();
